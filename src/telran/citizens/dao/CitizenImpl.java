@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class CitizenImpl implements Citizens {
+public class CitizenImpl implements Citizens  {
     private Collection<Person> citizens = new ArrayList<>();
 
     //O(n)
