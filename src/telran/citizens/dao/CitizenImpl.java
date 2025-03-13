@@ -5,9 +5,19 @@ import telran.citizens.model.Person;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 
-public class CitizenImpl implements Citizens  {
+public class CitizenImpl implements Citizens {
     private Collection<Person> citizens = new ArrayList<>();
+    private final Comparator<Person> byIdComparator = (p1, p2) -> Integer.compare(p1.getId(), p2.getId());
+    private final Comparator<Person> byAgeComparator = (p1, p2) -> {
+        int ageCompare = Integer.compare(p1.getAge(), p2.getAge());
+        return ageCompare != 0 ? ageCompare : p1.getFirstName().compareTo(p2.getFirstName());
+    };
+    private final Comparator<Person> byLastNameComparator = (p1, p2) -> {
+        int lastNameCompare = p1.getLastName().compareTo(p2.getLastName());
+        return lastNameCompare != 0 ? lastNameCompare : Integer.compare(p1.getId(), p2.getId());
+    };
 
     //O(n)
     @Override
@@ -52,7 +62,7 @@ public class CitizenImpl implements Citizens  {
     @Override
     public Iterable<Person> getAllPersonsSortedById() {
         ArrayList<Person> sorted = new ArrayList<>(citizens);
-        Collections.sort(sorted);
+        sorted.sort(byIdComparator);
         return sorted;
     }
 
@@ -60,13 +70,7 @@ public class CitizenImpl implements Citizens  {
     @Override
     public Iterable<Person> getAllPersonsSortedByAge() {
         ArrayList<Person> sorted = new ArrayList<>(citizens);
-        Collections.sort(sorted, (p1, p2) -> {
-            int ageCompare = Integer.compare(p1.getAge(), p2.getAge());
-            if (ageCompare != 0) {
-                return ageCompare;
-            }
-            return p1.getFirstName().compareTo(p2.getFirstName());
-        });
+        sorted.sort(byAgeComparator);
         return sorted;
     }
 
@@ -74,13 +78,7 @@ public class CitizenImpl implements Citizens  {
     @Override
     public Iterable<Person> getAllPersonsSortedByLastName() {
         ArrayList<Person> sorted = new ArrayList<>(citizens);
-        Collections.sort(sorted, (p1, p2) -> {
-            int lastNameCompare = p1.getLastName().compareTo(p2.getLastName());
-            if (lastNameCompare != 0) {
-                return lastNameCompare;
-            }
-            return Integer.compare(p1.getId(), p2.getId());
-        });
+        sorted.sort(byLastNameComparator);
         return sorted;
     }
 
