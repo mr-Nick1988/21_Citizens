@@ -16,7 +16,7 @@ public class CitizensImpl implements Citizens{
         idCollection = new ArrayList<>();
     }
 
-    public CitizensImpl(List<Person> citizens) {
+    public CitizensImpl(List<Person> citizens)  {
         this();
         citizens.forEach(p -> add(p));
     }
